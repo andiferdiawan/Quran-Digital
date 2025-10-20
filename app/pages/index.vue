@@ -15,29 +15,35 @@
     </div>
     <!-- Shortcut Surah -->
     <div class="container mx-auto flex flex-wrap justify-center gap-3 px-4">
-      <span
-        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium"
-        >Yasin</span
+      <NuxtLink
+        to="/surah/yasin/36"
+        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium hover:bg-orange-200"
+        >Yasin</NuxtLink
       >
-      <span
-        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium"
-        >Al-Waqi'ah</span
+      <NuxtLink
+        to="/surah/al-waqiah/56"
+        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium hover:bg-orange-200"
+        >Al-Waqi'ah</NuxtLink
       >
-      <span
-        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium"
-        >Al-Mulk</span
+      <NuxtLink
+        to="/surah/al-mulk/67"
+        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium hover:bg-orange-200"
+        >Al-Mulk</NuxtLink
       >
-      <span
-        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium"
-        >Al-Kahfi</span
+      <NuxtLink
+        to="/surah/al-kahf/18"
+        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium hover:bg-orange-200"
+        >Al-Kahfi</NuxtLink
       >
-      <span
-        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium"
-        >Ar-Rahman</span
+      <NuxtLink
+        to="/surah/ar-rahman/55"
+        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium hover:bg-orange-200"
+        >Ar-Rahman</NuxtLink
       >
-      <span
-        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium"
-        >Ayat Kursi</span
+      <NuxtLink
+        to="/surah/al-baqarah/2#ayat255"
+        class="px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium hover:bg-orange-200"
+        >Ayat Kursi</NuxtLink
       >
     </div>
 

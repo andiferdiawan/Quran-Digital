@@ -34,10 +34,12 @@ const changeSurah = (surahId) => {
 const scrollToAyat = (ayatNumber) => {
   if (!ayatNumber) return;
 
-  // Cari elemen ayat berdasarkan nomor
-  const ayatElement = document.querySelector(`[data-ayat="${ayatNumber}"]`);
+  // Cari elemen ayat berdasarkan id ayat
+  const ayatElement = document.getElementById(`ayat${ayatNumber}`);
   if (ayatElement) {
     ayatElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Update URL dengan hash untuk SEO
+    window.history.replaceState(null, null, `#ayat${ayatNumber}`);
   }
 };
 
@@ -80,6 +82,17 @@ onMounted(async () => {
         currentTime: 0,
       })),
     });
+
+    // Cek hash URL untuk navigasi ke ayat tertentu
+    setTimeout(() => {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith("#ayat")) {
+        const ayatNumber = hash.replace("#ayat", "");
+        if (ayatNumber) {
+          scrollToAyat(ayatNumber);
+        }
+      }
+    }, 500); // Beri waktu untuk render konten
   } catch (err) {
     console.error("Gagal fetch surah", err);
   } finally {
@@ -237,7 +250,7 @@ watchEffect(() => {
     <div
       v-for="ayah in surah.ayahs"
       :key="ayah.numberInSurah"
-      :id="`ayat-${ayah.numberInSurah}`"
+      :id="`ayat${ayah.numberInSurah}`"
       :data-ayat="ayah.numberInSurah"
       class="border-b py-6">
       <div class="flex items-start gap-4">
