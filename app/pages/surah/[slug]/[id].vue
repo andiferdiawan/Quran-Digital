@@ -339,70 +339,94 @@ watchEffect(() => {
     </div>
   </div>
 
-  <!-- Player fixed bawah layar -->
+  <!-- Player fixed bawah layar - Modern Design -->
   <div
     v-if="currentAyah"
-    class="fixed bottom-0 left-0 right-0 bg-orange-100 p-4 shadow-lg border-t">
-    <div class="flex items-center gap-4">
-      <!-- Tombol Play/Pause -->
+    class="fixed bottom-0 left-0 right-0 bg-white p-4 md:p-6 shadow-2xl border-t border-gray-200 backdrop-blur-sm bg-opacity-95">
+    <div class="flex items-center gap-4 md:gap-6 max-w-4xl mx-auto">
+      <!-- Tombol Play/Pause Modern -->
       <button
         @click="togglePlay(currentAyah)"
-        class="p-3 bg-orange-500 text-white rounded-full hover:bg-orange-700">
-        <span v-if="activeAyah === currentAyah.numberInSurah && !isPaused"
-          ><svg
+        class="p-3 md:p-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+        <span v-if="activeAyah === currentAyah.numberInSurah && !isPaused">
+          <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            class="md:w-7 md:h-7 drop-shadow-sm"
             viewBox="0 0 24 24">
             <path
               fill="currentColor"
-              d="M10.25 5.5v13a1.75 1.75 0 0 1-1.75 1.75h-3a1.75 1.75 0 0 1-1.75-1.75v-13A1.76 1.76 0 0 1 5.5 3.75h3a1.75 1.75 0 0 1 1.75 1.75m10 0v13a1.75 1.75 0 0 1-1.75 1.75h-3a1.75 1.75 0 0 1-1.75-1.75v-13a1.76 1.76 0 0 1 1.75-1.75h3a1.75 1.75 0 0 1 1.75 1.75" /></svg
-        ></span>
-        <span v-else
-          ><svg
+              d="M10.25 5.5v13a1.75 1.75 0 0 1-1.75 1.75h-3a1.75 1.75 0 0 1-1.75-1.75v-13A1.76 1.76 0 0 1 5.5 3.75h3a1.75 1.75 0 0 1 1.75 1.75m10 0v13a1.75 1.75 0 0 1-1.75 1.75h-3a1.75 1.75 0 0 1-1.75-1.75v-13a1.76 1.76 0 0 1 1.75-1.75h3a1.75 1.75 0 0 1 1.75 1.75" />
+          </svg>
+        </span>
+        <span v-else>
+          <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            class="md:w-7 md:h-7 drop-shadow-sm"
             viewBox="0 0 24 24">
             <path
               fill="currentColor"
-              d="M19.105 11.446a2.34 2.34 0 0 1-.21 1c-.15.332-.38.62-.67.84l-9.65 7.51a2.3 2.3 0 0 1-1.17.46h-.23a2.2 2.2 0 0 1-1-.24a2.29 2.29 0 0 1-1.28-2v-14a2.2 2.2 0 0 1 .33-1.17a2.27 2.27 0 0 1 2.05-1.1c.412.02.812.148 1.16.37l9.66 6.44c.294.204.54.47.72.78c.19.34.29.721.29 1.11" /></svg
-        ></span>
+              d="M19.105 11.446a2.34 2.34 0 0 1-.21 1c-.15.332-.38.62-.67.84l-9.65 7.51a2.3 2.3 0 0 1-1.17.46h-.23a2.2 2.2 0 0 1-1-.24a2.29 2.29 0 0 1-1.28-2v-14a2.2 2.2 0 0 1 .33-1.17a2.27 2.27 0 0 1 2.05-1.1c.412.02.812.148 1.16.37l9.66 6.44c.294.204.54.47.72.78c.19.34.29.721.29 1.11" />
+          </svg>
+        </span>
       </button>
 
-      <!-- Info & Progress -->
+      <!-- Info & Progress Modern -->
       <div class="flex-1">
-        <p class="text-sm font-semibold mb-1">
-          Ayat {{ currentAyah.numberInSurah }}
-        </p>
-        <div class="h-2 bg-gray-300 rounded-full overflow-hidden">
+        <div class="flex items-center justify-between mb-2 md:mb-3">
+          <p class="text-base md:text-lg font-bold text-gray-800">
+            Ayat {{ currentAyah.numberInSurah }}
+          </p>
           <div
-            class="h-2 bg-orange-500"
-            :style="{ width: `${currentAyah.progress}%` }"></div>
+            class="flex items-center gap-2 md:gap-4 text-xs md:text-sm text-gray-600">
+            <span>{{ formatTime(currentAyah.currentTime) }}</span>
+            <span class="text-gray-400">/</span>
+            <span>{{ formatTime(currentAyah.duration) }}</span>
+          </div>
         </div>
-        <div class="flex justify-between text-xs text-gray-600 mt-1">
-          <span>{{ formatTime(currentAyah.currentTime) }}</span>
-          <span>{{ formatTime(currentAyah.duration) }}</span>
+
+        <!-- Progress Bar Modern -->
+        <div
+          class="h-2 md:h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+          <div
+            class="h-2 md:h-3 bg-gradient-to-r from-orange-500 to-orange-600 transition-all duration-300 ease-out"
+            :style="{ width: `${currentAyah.progress}%` }"></div>
         </div>
       </div>
 
-      <!-- Kontrol Autoplay dan Auto-scroll -->
-      <div class="flex items-center gap-3">
-        <div class="flex items-center">
-          <input
-            type="checkbox"
-            id="autoplay"
-            v-model="autoplayEnabled"
-            class="mr-1" />
-          <label for="autoplay" class="text-sm">Autoplay</label>
+      <!-- Kontrol Autoplay dan Auto-scroll Modern -->
+      <div class="flex items-center gap-4 md:gap-6">
+        <!-- Autoplay Toggle -->
+        <div class="flex flex-col items-center">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              v-model="autoplayEnabled"
+              class="sr-only peer" />
+            <div
+              class="w-9 h-5 md:w-11 md:h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 md:after:h-5 md:after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+          </label>
+          <span class="text-xs font-medium text-gray-600 mt-1 md:mt-2"
+            >Autoplay</span
+          >
         </div>
-        <div class="flex items-center">
-          <input
-            type="checkbox"
-            id="autoscroll"
-            v-model="autoScrollEnabled"
-            class="mr-1" />
-          <label for="autoscroll" class="text-sm">Auto-scroll</label>
+
+        <!-- Auto-scroll Toggle -->
+        <div class="flex flex-col items-center">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              v-model="autoScrollEnabled"
+              class="sr-only peer" />
+            <div
+              class="w-9 h-5 md:w-11 md:h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 md:after:h-5 md:after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+          </label>
+          <span class="text-xs font-medium text-gray-600 mt-1 md:mt-2"
+            >Auto-scroll</span
+          >
         </div>
       </div>
     </div>
