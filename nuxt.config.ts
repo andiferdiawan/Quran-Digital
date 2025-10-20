@@ -53,24 +53,24 @@ export default defineNuxtConfig({
       start_url: "/",
       icons: [
         {
-          src: "/icons/icon-72x72.svg",
+          src: "/icons/apple-icon-72x72.png",
           sizes: "72x72",
-          type: "image/svg+xml",
+          type: "image/png",
         },
         {
-          src: "/icons/icon-192x192.svg",
+          src: "/icons/android-icon-192x192.png",
           sizes: "192x192",
-          type: "image/svg+xml",
+          type: "image/png",
         },
         {
-          src: "/icons/icon-512x512.svg",
-          sizes: "512x512",
-          type: "image/svg+xml",
+          src: "/icons/apple-icon-152x152.png",
+          sizes: "152x152",
+          type: "image/png",
         },
         {
-          src: "/icons/icon.svg",
+          src: "/icons/apple-icon.png",
           sizes: "any",
-          type: "image/svg+xml",
+          type: "image/png",
           purpose: "any maskable",
         },
       ],
