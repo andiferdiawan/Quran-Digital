@@ -11,6 +11,8 @@ const isPaused = ref(true);
 const audioRefs = ref([]);
 const currentAyah = ref(null); // simpan ayat yang sedang aktif
 const loading = ref(true);
+const autoplayEnabled = ref(true); // kontrol autoplay
+const autoScrollEnabled = ref(true); // kontrol auto-scroll
 
 const surah = reactive({ ayahs: [] });
 
@@ -141,6 +143,29 @@ const updateProgress = (ayah) => {
 const resetPlayer = (ayah) => {
   ayah.progress = 0;
   ayah.currentTime = 0;
+
+  // Jika autoplay diaktifkan, putar ayat berikutnya
+  if (autoplayEnabled.value && ayah.numberInSurah < surah.numberOfAyahs) {
+    const nextAyahNumber = ayah.numberInSurah + 1;
+    const nextAyah = surah.ayahs.find(
+      (a) => a.numberInSurah === nextAyahNumber
+    );
+
+    if (nextAyah) {
+      // Scroll ke ayat berikutnya jika auto-scroll diaktifkan
+      if (autoScrollEnabled.value) {
+        scrollToAyat(nextAyahNumber);
+      }
+
+      // Putar ayat berikutnya setelah sedikit jeda
+      setTimeout(() => {
+        togglePlay(nextAyah);
+      }, 500);
+      return;
+    }
+  }
+
+  // Jika tidak ada ayat berikutnya atau autoplay dinonaktifkan
   isPaused.value = true;
   activeAyah.value = null;
   currentAyah.value = null;
@@ -252,7 +277,10 @@ watchEffect(() => {
       :key="ayah.numberInSurah"
       :id="`ayat${ayah.numberInSurah}`"
       :data-ayat="ayah.numberInSurah"
-      class="border-b py-6">
+      class="border-b py-6 transition-colors duration-300"
+      :class="{
+        'bg-orange-50': activeAyah === ayah.numberInSurah && !isPaused,
+      }">
       <div class="flex items-start gap-4">
         <!-- Nomor Ayat + Tombol Play -->
         <div class="flex flex-col items-center">
@@ -350,11 +378,31 @@ watchEffect(() => {
         <div class="h-2 bg-gray-300 rounded-full overflow-hidden">
           <div
             class="h-2 bg-orange-500"
-            :style="{ width: currentAyah.progress + '%' }"></div>
+            :style="{ width: `${currentAyah.progress}%` }"></div>
         </div>
         <div class="flex justify-between text-xs text-gray-600 mt-1">
           <span>{{ formatTime(currentAyah.currentTime) }}</span>
           <span>{{ formatTime(currentAyah.duration) }}</span>
+        </div>
+      </div>
+
+      <!-- Kontrol Autoplay dan Auto-scroll -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center">
+          <input
+            type="checkbox"
+            id="autoplay"
+            v-model="autoplayEnabled"
+            class="mr-1" />
+          <label for="autoplay" class="text-sm">Autoplay</label>
+        </div>
+        <div class="flex items-center">
+          <input
+            type="checkbox"
+            id="autoscroll"
+            v-model="autoScrollEnabled"
+            class="mr-1" />
+          <label for="autoscroll" class="text-sm">Auto-scroll</label>
         </div>
       </div>
     </div>
