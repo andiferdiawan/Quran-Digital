@@ -1,8 +1,9 @@
 <script setup>
 import { ref, reactive, onMounted, watchEffect } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const { id } = route.params;
 
 const activeAyah = ref(null);
@@ -12,6 +13,44 @@ const currentAyah = ref(null); // simpan ayat yang sedang aktif
 const loading = ref(true);
 
 const surah = reactive({ ayahs: [] });
+
+// Fetch daftar surah untuk dropdown
+const { data: surahList } = await useFetch(
+  "https://quran-api.santrikoding.com/api/surah"
+);
+
+// Fungsi untuk navigasi ke surah yang dipilih
+const changeSurah = (surahId) => {
+  if (!surahId) return;
+
+  const selectedSurah = surahList.value.find((s) => s.nomor == surahId);
+  if (selectedSurah) {
+    const slug = slugify(selectedSurah.nama_latin);
+    router.push(`/surah/${slug}/${surahId}`);
+  }
+};
+
+// Fungsi untuk scroll ke ayat yang dipilih
+const scrollToAyat = (ayatNumber) => {
+  if (!ayatNumber) return;
+
+  // Cari elemen ayat berdasarkan nomor
+  const ayatElement = document.querySelector(`[data-ayat="${ayatNumber}"]`);
+  if (ayatElement) {
+    ayatElement.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
+
+// Fungsi slugify dari halaman index
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .normalize("NFD") // hilangkan aksen
+    .replace(/[\u0300-\u036f]/g, "") // hapus diakritik
+    .replace(/[^a-z0-9-\s]/g, "") // hapus selain huruf/angka/dash/spasi
+    .trim()
+    .replace(/\s+/g, "-"); // spasi → tanda -
+}
 
 onMounted(async () => {
   try {
@@ -133,15 +172,45 @@ watchEffect(() => {
 </style>
 
 <template>
-  <div class="container max-w-4xl mx-auto p-6">
-    <!-- Tombol kembali -->
-    <div class="mb-6">
-      <NuxtLink
-        to="/"
-        class="inline-flex items-center px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium hover:underline">
-        ← Kembali ke daftar surah
-      </NuxtLink>
+  <!-- Navigasi Menu Sticky -->
+  <div class="sticky top-0 left-0 right-0 z-10 bg-slate-50 shadow-sm">
+    <div class="container max-w-4xl mx-auto">
+      <div
+        class="flex flex-col md:flex-row md:items-center md:justify-between p-4 rounded-lg">
+        <div class="mb-3 md:mb-0">
+          <NuxtLink
+            to="/"
+            class="inline-flex items-center px-4 py-2 rounded-lg bg-orange-100 text-orange-600 text-sm font-medium hover:underline">
+            ← Daftar surah
+          </NuxtLink>
+        </div>
+
+        <!-- Navigasi Tengah (Surah dan Ayat dalam satu baris) -->
+        <div class="flex items-center space-x-2">
+          <select
+            id="surah-select"
+            class="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            @change="changeSurah($event.target.value)"
+            :value="id">
+            <option v-for="s in surahList" :key="s.nomor" :value="s.nomor">
+              {{ s.nama_latin }}
+            </option>
+          </select>
+          <select
+            id="ayat-select"
+            class="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            @change="scrollToAyat($event.target.value)">
+            <option v-for="n in surah.numberOfAyahs" :key="n" :value="n">
+              {{ n }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="container max-w-4xl mx-auto p-6 mt-4">
+    <!-- Konten utama -->
 
     <div v-if="loading" class="flex justify-center items-center h-64">
       <div
@@ -168,6 +237,8 @@ watchEffect(() => {
     <div
       v-for="ayah in surah.ayahs"
       :key="ayah.numberInSurah"
+      :id="`ayat-${ayah.numberInSurah}`"
+      :data-ayat="ayah.numberInSurah"
       class="border-b py-6">
       <div class="flex items-start gap-4">
         <!-- Nomor Ayat + Tombol Play -->
