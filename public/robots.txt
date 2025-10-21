@@ -1,2 +1,5 @@
 User-Agent: *
 Disallow:
+
+# Sitemap
+Sitemap: https://quran.portal-islam.com/api/sitemap.xml

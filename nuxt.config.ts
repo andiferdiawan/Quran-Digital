@@ -18,6 +18,9 @@ export default defineNuxtConfig({
           name: "apple-mobile-web-app-status-bar-style",
           content: "black-translucent",
         },
+        // SEO Meta Tags
+        { name: "robots", content: "index, follow" },
+        { name: "googlebot", content: "index, follow" },
       ],
       link: [
         {
@@ -27,7 +30,7 @@ export default defineNuxtConfig({
         },
         {
           rel: "apple-touch-icon",
-          href: "/icons/apple-touch-icon.svg",
+          href: "/icons/apple-icon.png",
         },
         {
           rel: "stylesheet",
@@ -94,6 +97,16 @@ export default defineNuxtConfig({
           },
         },
       ],
+    },
+  },
+
+  // Route rules untuk rewrite
+  routeRules: {
+    "/sitemap.xml": {
+      proxy: "/api/sitemap.xml",
+      headers: {
+        "Content-Type": "application/xml",
+      },
     },
   },
 });

@@ -207,6 +207,11 @@ watchEffect(() => {
 .font-arabic {
   font-family: "Scheherazade New", serif;
 }
+
+/* Backup dengan CSS scroll-margin */
+[id^="ayat"] {
+  scroll-margin-top: 120px;
+}
 </style>
 
 <template>
