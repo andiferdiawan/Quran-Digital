@@ -100,13 +100,9 @@ export default defineNuxtConfig({
     },
   },
 
-  // Route rules untuk rewrite
-  routeRules: {
-    "/sitemap.xml": {
-      proxy: "/api/sitemap.xml",
-      headers: {
-        "Content-Type": "application/xml",
-      },
+  nitro: {
+    prerender: {
+      routes: ["/sitemap.xml"],
     },
   },
 });
