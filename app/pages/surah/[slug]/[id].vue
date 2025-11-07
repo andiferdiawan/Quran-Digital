@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useUserData } from "~/composables/useUserData";
 
 const route = useRoute();
 const router = useRouter();
@@ -124,6 +125,17 @@ const togglePlay = (ayah) => {
     currentAyah.value = ayah;
     isPaused.value = false;
 
+    // Tambahkan ke riwayat bacaan
+    addToHistory({
+      surahId: surah.number,
+      surahName: surah.nama_latin || surahName.value,
+      ayahNumber: ayah.numberInSurah,
+      ayahText: ayah.text,
+      translation: ayah.translation,
+      audio: ayah.audio,
+      timestamp: Date.now(),
+    });
+
     audio.onloadedmetadata = () => {
       ayah.duration = audio.duration;
     };
@@ -169,6 +181,27 @@ const resetPlayer = (ayah) => {
   isPaused.value = true;
   activeAyah.value = null;
   currentAyah.value = null;
+};
+
+// Fungsi favorit
+const { addToHistory, addToFavorites, removeFromFavorites, isFavorite } =
+  useUserData();
+
+const addToFavorite = (ayah) => {
+  // console.log(ayah);
+  if (isFavorite(surah.number, ayah.numberInSurah)) {
+    removeFromFavorites(surah.number, ayah.numberInSurah);
+  } else {
+    addToFavorites({
+      surahId: surah.number,
+      surahName: surah.nama_latin || surahName.value,
+      ayahNumber: ayah.numberInSurah,
+      ayahText: ayah.text,
+      translation: ayah.translation,
+      audio: ayah.audio,
+      timestamp: Date.now(),
+    });
+  }
 };
 
 function toTitleCase(str) {
@@ -287,15 +320,15 @@ watchEffect(() => {
         'bg-orange-50': activeAyah === ayah.numberInSurah && !isPaused,
       }">
       <div class="flex items-start gap-4">
-        <!-- Nomor Ayat + Tombol Play -->
-        <div class="flex flex-col items-center">
+        <!-- Nomor Ayat + Tombol Play + Favorit -->
+        <div class="flex flex-col items-center space-y-2">
           <div
-            class="w-10 h-10 flex items-center justify-center rounded-full border mb-2">
+            class="w-10 h-10 flex items-center justify-center rounded-full border">
             {{ ayah.numberInSurah }}
           </div>
           <button
             @click="togglePlay(ayah)"
-            class="p-2 bg-orange-500 text-white rounded-full hover:bg-orange-700">
+            class="p-2 bg-orange-500 text-white rounded-full hover:bg-orange-700 transition-colors duration-200">
             <span v-if="activeAyah === ayah.numberInSurah && !isPaused"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -316,6 +349,26 @@ watchEffect(() => {
                   fill="currentColor"
                   d="M19.105 11.446a2.34 2.34 0 0 1-.21 1c-.15.332-.38.62-.67.84l-9.65 7.51a2.3 2.3 0 0 1-1.17.46h-.23a2.2 2.2 0 0 1-1-.24a2.29 2.29 0 0 1-1.28-2v-14a2.2 2.2 0 0 1 .33-1.17a2.27 2.27 0 0 1 2.05-1.1c.412.02.812.148 1.16.37l9.66 6.44c.294.204.54.47.72.78c.19.34.29.721.29 1.11" /></svg
             ></span>
+          </button>
+          <button
+            @click="addToFavorite(ayah)"
+            class="p-2 rounded-full transition-colors duration-200"
+            :class="
+              isFavorite(surah.number, ayah.numberInSurah)
+                ? 'text-red-500 hover:text-red-700 bg-red-50'
+                : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
+            "
+            :title="
+              isFavorite(surah.number, ayah.numberInSurah)
+                ? 'Hapus dari favorit'
+                : 'Tambahkan ke favorit'
+            ">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                clip-rule="evenodd" />
+            </svg>
           </button>
         </div>
 
@@ -347,7 +400,7 @@ watchEffect(() => {
   <!-- Player fixed bawah layar - Modern Design -->
   <div
     v-if="currentAyah"
-    class="fixed bottom-0 left-0 right-0 bg-white p-4 md:p-6 shadow-2xl border-t border-gray-200 backdrop-blur-sm bg-opacity-95">
+    class="fixed bottom-[80px] left-0 right-0 bg-white p-4 md:p-6 shadow-2xl border-t border-gray-200 backdrop-blur-sm bg-opacity-95">
     <div class="flex items-center gap-4 md:gap-6 max-w-4xl mx-auto">
       <!-- Tombol Play/Pause Modern -->
       <button

@@ -21,6 +21,22 @@ export default defineEventHandler(async (event) => {
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Favorites Page -->
+  <url>
+    <loc>${baseUrl}/favorites</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- History Page -->
+  <url>
+    <loc>${baseUrl}/history</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 `;
 
     // Tambahkan URL untuk setiap surah
@@ -71,6 +87,18 @@ export default defineEventHandler(async (event) => {
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/favorites</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/history</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>`;
   }

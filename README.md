@@ -1,10 +1,19 @@
-# Nuxt Minimal Starter
+# Quran Online - Aplikasi Pembaca Al-Qur'an Digital
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Aplikasi web modern untuk membaca Al-Qur'an dengan fitur lengkap termasuk navigasi surah, pencarian, riwayat bacaan, dan favorit.
+
+## Fitur Utama
+
+- 📖 **Pembacaan Al-Qur'an**: Navigasi mudah antar surah dan ayat
+- 🔍 **Pencarian**: Cari surah berdasarkan nama atau nomor
+- 📚 **Riwayat Bacaan**: Menyimpan ayat terakhir yang dibaca
+- ⭐ **Favorit**: Tandai ayat favorit untuk dibaca kembali
+- 📱 **Responsive**: Tampilan optimal di semua perangkat
+- 🌐 **SEO Optimized**: Sitemap otomatis untuk mesin pencari
 
 ## Setup
 
-Make sure to install dependencies:
+Pastikan untuk menginstal dependensi:
 
 ```bash
 # npm
@@ -22,7 +31,7 @@ bun install
 
 ## Development Server
 
-Start the development server on `http://localhost:3000`:
+Mulai server pengembangan di `http://localhost:3000`:
 
 ```bash
 # npm
@@ -40,7 +49,7 @@ bun run dev
 
 ## Production
 
-Build the application for production:
+Bangun aplikasi untuk produksi:
 
 ```bash
 # npm
@@ -56,7 +65,7 @@ yarn build
 bun run build
 ```
 
-Locally preview production build:
+Pratinjau build produksi secara lokal:
 
 ```bash
 # npm
@@ -72,4 +81,15 @@ yarn preview
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Lihat [dokumentasi deployment](https://nuxt.com/docs/getting-started/deployment) untuk informasi lebih lanjut.
+
+## Struktur Sitemap
+
+Aplikasi ini secara otomatis menghasilkan sitemap XML yang mencakup:
+- Halaman utama (Homepage)
+- Halaman favorit (/favorites)
+- Halaman riwayat (/history)
+- Semua halaman surah
+- Ayat-ayat penting (seperti Ayat Kursi)
+
+Sitemap dapat diakses di: `https://quran.portal-islam.com/sitemap.xml`
