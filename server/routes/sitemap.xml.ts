@@ -37,6 +37,14 @@ export default defineEventHandler(async (event) => {
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- Hafalan Page -->
+  <url>
+    <loc>${baseUrl}/hafalan</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 `;
 
     // Tambahkan URL untuk setiap surah
@@ -56,6 +64,19 @@ export default defineEventHandler(async (event) => {
     <priority>0.8</priority>
   </url>
 `;
+
+        // Generate URL Tafsir untuk setiap ayat
+        if (surah.jumlah_ayat) {
+          for (let i = 1; i <= surah.jumlah_ayat; i++) {
+            sitemap += `  <url>
+    <loc>${baseUrl}/surah/${surahSlug}/${surah.nomor}/tafsir/${i}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+`;
+          }
+        }
 
         // Tambahkan URL untuk ayat-ayat penting (contoh: Ayat Kursi)
         if (surah.nomor === 2) {
