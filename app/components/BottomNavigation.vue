@@ -65,6 +65,30 @@
         <span class="text-xs font-medium">Hafalan</span>
       </NuxtLink>
 
+      <!-- Menu Jadwal Sholat -->
+      <NuxtLink
+        to="/jadwal-sholat"
+        class="flex flex-col items-center justify-center flex-1 py-2 px-3 rounded-lg transition-all duration-200"
+        :class="
+          isActive('/jadwal-sholat')
+            ? 'text-orange-600 bg-orange-50'
+            : 'text-gray-600 hover:text-orange-600 hover:bg-gray-50'
+        ">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 mb-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="text-xs font-medium">Jadwal</span>
+      </NuxtLink>
+
       <!-- Menu History -->
       <NuxtLink
         to="/history"

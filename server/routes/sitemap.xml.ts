@@ -45,6 +45,14 @@ export default defineEventHandler(async (event) => {
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- Jadwal Sholat Page -->
+  <url>
+    <loc>${baseUrl}/jadwal-sholat</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 `;
 
     // Tambahkan URL untuk setiap surah
